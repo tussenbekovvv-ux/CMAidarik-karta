@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>CMA — Карта игрока</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CMA Карта">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&amp;display=swap">
+<style>
+:root{
+  --bg:#FFFFFF; --fg:#0B1730; --muted:#4A5672; --line:#D5DAE3; --empty:#8A93A6; --navy:#0B1730; --on-navy:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0A1226;--fg:#F2F5FB;--muted:#9AA6C2;--line:#26324F;--empty:#6B7794;--navy:#0F1C3F}
+}
+:root[data-theme="dark"]{--bg:#0A1226;--fg:#F2F5FB;--muted:#9AA6C2;--line:#26324F;--empty:#6B7794;--navy:#0F1C3F}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto}
+.head{background:var(--navy);color:var(--on-navy);padding:22px 20px;display:flex;align-items:center;gap:16px}
+.logo{position:relative;font-size:46px;font-weight:800;line-height:1;letter-spacing:.02em}
+.logo i{position:absolute;left:-4px;right:-4px;height:2.5px;background:var(--navy)}
+.sep{width:2px;align-self:stretch;background:#fff;opacity:.35}
+.ttl{font-size:18px;font-weight:800;line-height:1.2}
+.sec{padding:20px 20px 0}
+.fld{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
+.fl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fb{width:100%;height:42px;padding:0 10px;font-family:inherit;font-size:18px;font-weight:600;color:var(--fg);background:transparent;border:1.5px solid var(--fg);border-radius:6px;outline:none}
+.lgs{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.lg{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600}
+.lg b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;flex:none;font-size:15px;font-weight:800;color:#000}
+.th{display:grid;grid-template-columns:1fr 80px;align-items:center;height:40px;border-bottom:3px solid var(--fg)}
+.th div:last-child{text-align:center}
+.row{display:grid;grid-template-columns:1fr 80px;align-items:center;min-height:54px;border-bottom:1px solid var(--line)}
+.nm{font-size:16px;font-weight:600;padding-right:8px}
+.c{display:flex;justify-content:center}
+.dg{width:40px;height:40px;border-radius:50%;border:2.5px solid var(--empty);background:transparent;padding:0;margin:0;text-align:center;font-family:inherit;font-size:21px;font-weight:800;color:var(--fg);outline:none;-webkit-appearance:none;appearance:none}
+.dg[data-v]{color:#000}
+.dg[data-v="4"]{background:#D32F2F;border-color:#D32F2F}
+.dg[data-v="3"]{background:#F28C1B;border-color:#F28C1B}
+.dg[data-v="2"]{background:#6DBE45;border-color:#6DBE45}
+.dg[data-v="1"]{background:#1E9A43;border-color:#1E9A43}
+.bar{display:flex;flex-wrap:wrap;gap:10px;padding:20px 20px 12px}
+.btn{flex:1;min-height:46px;font-family:inherit;font-size:15px;font-weight:600;color:var(--fg);background:transparent;border:1.5px solid var(--fg);border-radius:8px}
+.note{padding:0 20px 24px;font-size:12px;color:var(--muted)}
+@media print{.bar,.note{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="logo"><span>CMA</span><i style="top:21px"></i><i style="top:27px"></i><i style="top:33px"></i></div>
+    <div class="sep"></div>
+    <div class="ttl">Карта индивидуального<br>развития игрока</div>
+  </div>
+
+  <div class="sec">
+    <div class="fld"><label class="fl" for="f-name">Имя игрока и год рождения</label><input class="fb" id="f-name" data-k="name" type="text" autocomplete="off"></div>
+    <div class="fld"><label class="fl" for="f-date">Дата заполнения</label><input class="fb" id="f-date" data-k="date" type="text" autocomplete="off"></div>
+    <div class="fld"><label class="fl" for="f-team">Команда / Клуб / Школа</label><input class="fb" id="f-team" data-k="team" type="text" autocomplete="off"></div>
+  </div>
+
+  <div class="sec">
+    <div class="lgs">
+      <div class="lg"><b style="background:#D32F2F">4</b>Требует особого внимания</div>
+      <div class="lg"><b style="background:#F28C1B">3</b>В процессе развития</div>
+      <div class="lg"><b style="background:#6DBE45">2</b>Хорошо</div>
+      <div class="lg"><b style="background:#1E9A43">1</b>На высоком уровне</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="th"><div class="fl">Технические элементы</div><div class="fl">Оценка</div></div>
+    <div id="rows"></div>
+  </div>
+
+  <div class="bar">
+    <button class="btn" id="send" type="button" style="flex-basis:100%;background:var(--navy);color:var(--on-navy);border-color:var(--navy)">Отправить</button>
+  </div>
+  <div class="bar" style="padding-top:0">
+    <button class="btn" id="img" type="button">Сохранить картинку</button>
+    <button class="btn" id="reset" type="button">Новая карта</button>
+  </div>
+  <div id="panel" class="sec" style="display:none;padding-bottom:12px">
+    <div class="fl" style="margin-bottom:6px">Текст для отправки</div>
+    <textarea id="ptext" readonly style="width:100%;height:180px;font-family:inherit;font-size:14px;color:var(--fg);background:transparent;border:1.5px solid var(--fg);border-radius:6px;padding:8px"></textarea>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
+      <button class="btn" id="copy" type="button" style="flex-basis:100%">Скопировать</button>
+      <a class="btn" id="wa" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;text-decoration:none">WhatsApp</a>
+      <a class="btn" id="tg" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;text-decoration:none">Telegram</a>
+    </div>
+  </div>
+  <div id="ipanel" class="sec" style="display:none;padding-bottom:12px">
+    <div class="fl" style="margin-bottom:6px">Удерживайте картинку палцем и выберите «Сохранить» или «Поделиться»</div>
+    <img id="iout" alt="Карта игрока" style="width:100%;border:1.5px solid var(--fg);border-radius:6px">
+  </div>
+  <div class="note">Данные сохраняются автоматически на этом устройстве.</div>
+</div>
+
+<script>
+(function(){
+  var KEY='cma-card-v1';
+  var names=['Владение мячом','Владение мячом (в воздухе)','Дриблинг','Первое касание','Пасы','Удары','Финты (креатив)','1в1 (давление спереди)','1в1 (давление сбоку)','1в1 (давление сзади)','Слабая нога','Игра в отборе'];
+  var data={name:'',date:'',team:'',v:[]};
+  try{var raw=localStorage.getItem(KEY); if(raw){var p=JSON.parse(raw); if(p&&typeof p==='object'){data=p; if(!Array.isArray(data.v))data.v=[];}}}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+  var rowsEl=document.getElementById('rows');
+  names.forEach(function(n,i){
+    var row=document.createElement('div');row.className='row';
+    var nm=document.createElement('div');nm.className='nm';nm.textContent=n;
+    var c=document.createElement('div');c.className='c';
+    var inp=document.createElement('input');
+    inp.className='dg';inp.type='text';inp.inputMode='numeric';inp.maxLength=2;inp.autocomplete='off';
+    inp.setAttribute('aria-label','Оценка: '+n);
+    function paint(){var v=data.v[i]||'';inp.value=v;if(v)inp.setAttribute('data-v',v);else inp.removeAttribute('data-v');}
+    inp.addEventListener('input',function(){
+      var t=String(inp.value).replace(/[^1-4]/g,'').slice(-1);
+      data.v[i]=t;paint();save();
+    });
+    inp.addEventListener('focus',function(){try{inp.select();}catch(e){}});
+    paint();
+    c.appendChild(inp);row.appendChild(nm);row.appendChild(c);rowsEl.appendChild(row);
+  });
+  var fields=document.querySelectorAll('[data-k]');
+  Array.prototype.forEach.call(fields,function(f){
+    f.value=data[f.getAttribute('data-k')]||'';
+    f.addEventListener('input',function(){data[f.getAttribute('data-k')]=f.value;save();});
+  });
+  var sendBtn=document.getElementById('send');
+  sendBtn.addEventListener('click',function(){
+    var L=['Карта индивидуального развития игрока','CMA — CoachMotionAidarik','',
+      'Имя игрока и год рождения: '+(data.name||'—'),'Дата заполнения: '+(data.date||'—'),'Команда / Клуб / Школа: '+(data.team||'—'),'',
+      'Оценки (4 — требует особого внимания, 3 — в процессе развития, 2 — хорошо, 1 — на высоком уровне):'];
+    names.forEach(function(n,i){L.push(n+': '+(data.v[i]||'—'));});
+    var text=L.join('\n');
+    var panel=document.getElementById('panel');
+    function showPanel(){
+      document.getElementById('ptext').value=text;
+      var enc=encodeURIComponent(text);
+      document.getElementById('wa').href='https://wa.me/?text='+enc;
+      document.getElementById('tg').href='https://t.me/share/url?url='+'%20'+'&text='+enc;
+      panel.style.display='block';
+      try{panel.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}
+    }
+    window.__cmaText=text;
+    if(navigator.share){
+      try{
+        navigator.share({title:'Карта игрока',text:text}).catch(function(err){
+          if(err&&err.name==='AbortError')return;
+          showPanel();
+        });
+      }catch(e){showPanel();}
+    }else{showPanel();}
+  });
+  document.getElementById('copy').addEventListener('click',function(){
+    var ta=document.getElementById('ptext');var b=document.getElementById('copy');
+    function ok(){var o=b.textContent;b.textContent='Скопировано';setTimeout(function(){b.textContent=o;},1800);}
+    try{ta.focus();ta.select();ta.setSelectionRange(0,99999);}catch(e){}
+    var done=false;
+    try{done=document.execCommand('copy');}catch(e){}
+    if(done){ok();return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(ok).catch(function(){});}
+  });
+
+  document.getElementById('img').addEventListener('click',function(){
+    var W=720,pad=36,rh=64,H=300+names.length*rh+40;
+    var cv=document.createElement('canvas');cv.width=W;cv.height=H;
+    var x=cv.getContext('2d'),F='Montserrat,Helvetica,Arial,sans-serif';
+    x.fillStyle='#fff';x.fillRect(0,0,W,H);
+    x.fillStyle='#0B1730';x.fillRect(0,0,W,100);
+    x.fillStyle='#fff';x.font='800 40px '+F;x.textBaseline='middle';x.fillText('CMA',pad,50);
+    x.font='800 22px '+F;x.fillText('Карта индивидуального',150,38);x.fillText('развития игрока',150,66);
+    x.fillStyle='#0B1730';x.font='600 22px '+F;
+    x.fillText('Игрок: '+(data.name||'—'),pad,135);
+    x.fillText('Дата: '+(data.date||'—'),pad,170);
+    x.fillText('Команда: '+(data.team||'—'),pad,205);
+    var col={'4':'#D32F2F','3':'#F28C1B','2':'#6DBE45','1':'#1E9A43'};
+    var lg=[['4','Требует особого внимания'],['3','В процессе развития'],['2','Хорошо'],['1','На высоком уровне']];
+    lg.forEach(function(l,i){var lx=pad+(i%2)*330,ly=240+Math.floor(i/2)*0;});
+    var y0=235;
+    lg.forEach(function(l,i){
+      var lx=pad+(i%2)*330,ly=y0+Math.floor(i/2)*0;
+    });
+    x.font='600 15px '+F;
+    for(var i=0;i<4;i++){
+      var lx=pad+(i%2)*330,ly=y0+Math.floor(i/2)*30+8;
+      x.fillStyle=col[lg[i][0]];x.beginPath();x.arc(lx+11,ly,11,0,7);x.fill();
+      x.fillStyle='#000';x.font='800 13px '+F;x.textAlign='center';x.fillText(lg[i][0],lx+11,ly+1);
+      x.textAlign='left';x.fillStyle='#0B1730';x.font='600 15px '+F;x.fillText(lg[i][1],lx+30,ly+1);
+    }
+    var top=300;
+    x.fillStyle='#0B1730';x.fillRect(pad,top-4,W-2*pad,3);
+    names.forEach(function(n,i){
+      var cy=top+i*rh+rh/2;
+      x.fillStyle='#0B1730';x.font='600 22px '+F;x.textAlign='left';x.fillText(n,pad,cy);
+      var v=data.v[i]||'';
+      x.beginPath();x.arc(W-pad-26,cy,22,0,7);
+      if(v){x.fillStyle=col[v];x.fill();x.fillStyle='#000';x.font='800 24px '+F;x.textAlign='center';x.fillText(v,W-pad-26,cy+1);}
+      else{x.strokeStyle='#8A93A6';x.lineWidth=2.5;x.stroke();}
+      x.textAlign='left';
+      x.fillStyle='#D5DAE3';x.fillRect(pad,top+(i+1)*rh-1,W-2*pad,1);
+    });
+    var url=cv.toDataURL('image/png');
+    document.getElementById('iout').src=url;
+    var pn=document.getElementById('ipanel');pn.style.display='block';
+    try{pn.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}
+    try{cv.toBlob(function(b){
+      var f=new File([b],'cma-karta.png',{type:'image/png'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){});}
+    },'image/png');}catch(e){}
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    if(!window.confirm('Очистить карту и начать новую?'))return;
+    data={name:'',date:'',team:'',v:[]};save();
+    Array.prototype.forEach.call(fields,function(f){f.value='';});
+    Array.prototype.forEach.call(document.querySelectorAll('.dg'),function(d){d.value='';d.removeAttribute('data-v');});
+  });
+})();
+</script>
+</body>
+</html>
